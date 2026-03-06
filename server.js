@@ -108,11 +108,16 @@ app.patch('/notas/:id/status', auth, (req, res) => {
   db.prepare('UPDATE notas SET status=? WHERE id=?').run(status, req.params.id)
   res.json({ ok: true })
 })
-
+// Mantém o servidor acordado
+const https = require('https')
+setInterval(() => {
+  https.get('https://aplicativo-nota-fiscal.onrender.com')
+}, 14 * 60 * 1000) // ping a cada 14 minutos
 app.listen(3001, '0.0.0.0', () => {
   console.log('✅ Servidor rodando em http://localhost:3001')
 })
 
 process.on('uncaughtException', (err) => {
   console.error('Erro:', err)
+
 })
